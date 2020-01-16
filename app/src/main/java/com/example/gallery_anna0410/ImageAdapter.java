@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         Image imageArrayList = getItem(position);
         String src = imageArrayList.getName();
         ImageView imageView = (ImageView) listItemView.findViewById(R.id.img);
+
+        // Picasso is used for asynchronously downloading images from a network, resources or file system, caching and displaying them
         Picasso.get().load(src).into(imageView);
         return listItemView;
     }

@@ -3,4 +3,5 @@
     <string name="search">Search</string>
     <string name="request">Enter your request</string>
     <string name="load_more">Load more</string>
+    <string name="load_less">Load less</string>
 </resources>
