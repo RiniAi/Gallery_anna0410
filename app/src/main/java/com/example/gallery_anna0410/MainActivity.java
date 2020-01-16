@@ -66,8 +66,7 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Searching: " + searchResult);
                 Log.d(TAG, urlString);
 
-                Toast.makeText(MainActivity.this, "Please wait a few minutes", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(MainActivity.this, "Please wait a few minutes", Toast.LENGTH_SHORT).show();
                 startObject();
             }
         });

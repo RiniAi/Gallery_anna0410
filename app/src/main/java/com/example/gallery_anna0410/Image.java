@@ -1,3 +1,4 @@
+
 package com.example.gallery_anna0410;
 
 public class Image {
@@ -6,9 +7,6 @@ public class Image {
 
     String name;
 
-//    public Image (int imageResourceId){
-//        ImageResourceId = imageResourceId;
-//    }
     public Image (String name){
         this.name = name;
     }
@@ -17,13 +15,4 @@ public class Image {
         return name;
     }
 
-
-//    public int getImageResourceId() {
-//        return ImageResourceId;
-//    }
-//
-//    public boolean hasImage (){
-//        return ImageResourceId != NO_IMAGE_PROVIDED;
-//    }
 }
-

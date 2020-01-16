@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,19 +25,9 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         }
 
         Image imageArrayList = getItem(position);
-
-        TextView nameTextView = (TextView) listItemView.findViewById(R.id.name);
-        nameTextView.setText(imageArrayList.getName());
-
-//        ImageView iconView = (ImageView) listItemView.findViewById(R.id.img);
-//        if (imageArrayList.hasImage()) {
-//            iconView.setImageResource(imageArrayList.getImageResourceId());
-//            iconView.setVisibility(View.VISIBLE);
-//
-//        } else {
-//            iconView.setVisibility(View.GONE);
-//
-//        }
+        String src = imageArrayList.getName();
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.img);
+        Picasso.get().load(src).into(imageView);
         return listItemView;
     }
 }
