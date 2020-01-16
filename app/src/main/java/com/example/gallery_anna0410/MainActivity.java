@@ -2,9 +2,11 @@ package com.example.gallery_anna0410;
 
 import android.app.Activity;
 import android.content.Context;
+import android.inputmethodservice.Keyboard;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -37,8 +39,10 @@ public class MainActivity extends Activity {
     EditText edText;
     Button btnSearch;
     String urlString;
+    int page = 1;
 
     private static final String TAG = "Search";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +56,10 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 final String searchResult = edText.getText().toString();
-
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
                 String searchStringNoSpaces = searchResult.replace(" ", "+");
 
-                // API
-                String key = "AIzaSyA-k5MdnT8RUh6VYKhBWKBjdxY4Mkfiqp0";
-                String cx = "014561948740021196575:u60cafryro8";
-                urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
+                // API pixabay.com
+                urlString = "https://pixabay.com/api/?key=14936994-8c4443d07406ac0ea977716d4&q=" + searchStringNoSpaces + "&page=" + page;
 
                 Log.d(TAG, "Searching: " + searchResult);
                 Log.d(TAG, urlString);
@@ -70,6 +68,16 @@ public class MainActivity extends Activity {
                 startObject();
             }
         });
+    }
+
+    // hide Keyboard
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private void startObject() {
@@ -82,15 +90,12 @@ public class MainActivity extends Activity {
             public void onResponse(JSONObject response) {
                 try {
 
-                    JSONArray itemsArray = response.getJSONArray("items");
-                    for (int i = 2; i < itemsArray.length(); i++) {
-                        JSONObject item = (JSONObject) itemsArray.get(i);
-                        JSONObject pagemap = item.getJSONObject("pagemap");
-                        JSONArray cse_image = pagemap.getJSONArray("cse_image");
-                        JSONObject cse_imageItem = cse_image.getJSONObject(0);
-                        String src = cse_imageItem.getString("src");
+                    JSONArray itemsArray = response.getJSONArray("hits");
+                    for (int i = 0; i < itemsArray.length(); i++) {
+                        JSONObject itemHits = (JSONObject) itemsArray.get(i);
+                        String largeImageURL = itemHits.getString("largeImageURL");
 
-                        imageArrayList.add(new Image(src));
+                        imageArrayList.add(new Image(largeImageURL));
                     }
 
                     ImageAdapter imageAdapter = new ImageAdapter(MainActivity.this, imageArrayList);
